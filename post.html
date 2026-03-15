@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>post</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #fff; font-family: "Times New Roman", serif; font-size: 15px; color: #111; }
+
+#tw {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0; pointer-events: none;
+  padding: 16px 20px;
+  font-family: "Times New Roman", serif;
+  font-size: 12px; line-height: 1.7; overflow: hidden;
+}
+#tw span { color: rgba(0,0,0,0.18); white-space: pre-wrap; word-break: break-word; }
+#tw span.hi { color: rgba(180,120,100,0.52); }
+
+#wrap {
+  position: relative; z-index: 10;
+  max-width: 580px; padding: 0 20px 80px;
+}
+nav {
+  padding: 9px 0 7px; border-bottom: 1px solid #000;
+  font-size: 12px; font-family: "Times New Roman", serif;
+  margin-bottom: 0;
+}
+nav a { color: #00c; text-decoration: underline; margin-right: 14px; cursor: pointer; }
+nav a:hover { color: #c00; }
+.phead {
+  font-family: Arial, sans-serif; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.1em; color: #666;
+  padding: 4px 0 10px; border-bottom: 1px solid #ccc;
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+#post-title {
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(20px, 4vw, 36px);
+  font-weight: 900; text-transform: uppercase;
+  letter-spacing: -0.02em; line-height: 1;
+  margin-bottom: 10px;
+}
+#post-date {
+  font-size: 10px; color: #aaa;
+  font-family: Arial, sans-serif;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 28px;
+}
+#post-body {
+  line-height: 1.9; color: #222;
+}
+#post-body p { margin-bottom: 1.2em; }
+#post-body h2 { font-family: "Arial Black", sans-serif; font-size: 16px; margin: 1.6em 0 0.5em; }
+#post-body a { color: #00c; text-decoration: underline; }
+#post-body blockquote {
+  border-left: 2px solid #ccc; padding-left: 16px;
+  color: #666; font-style: italic; margin: 1em 0;
+}
+#post-body hr { border: none; border-top: 1px solid #e0e0e0; margin: 2em 0; }
+
+.blink { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+</style>
+</head>
+<body>
+
+<div id="tw"></div>
+
+<div id="wrap">
+  <nav>
+    <a href="index.html">home</a>
+    <a href="index.html" onclick="sessionStorage.setItem('goto','writing');return false;">glory hole 1</a>
+    <a href="index.html" onclick="sessionStorage.setItem('goto','about');return false;">glory hole 2</a>
+    <a href="index.html" onclick="sessionStorage.setItem('goto','gamma');return false;">gamma</a>
+    <a href="index.html" onclick="sessionStorage.setItem('goto','guestbook');return false;">guestbook</a>
+  </nav>
+  <div class="phead">&#9632;&nbsp; PERSONAL PAGE &nbsp;&#183;&nbsp; EST. 2025 <span style="margin-left:auto">&#9650;&#9660;</span></div>
+
+  <div id="post-title">loading...</div>
+  <div id="post-date"></div>
+  <div id="post-body"></div>
+</div>
+
+<script>
+// typewriter (same as index)
+var TEXTS = [
+  "Stately plump Buck Mulligan came from the stairhead bearing a bowl of lather on which a mirror and a razor lay crossed. A yellow dressinggown ungirdled was sustained gently behind him on the mild morning air. He held the bowl aloft and intoned Introibo ad altare Dei. Halted he peered down the dark winding stairs and called out coarsely Come up Kinch come up you fearful jesuit. ",
+  "Mrs Dalloway said she would buy the flowers herself. For Lucy had her work cut out for her. The doors would be taken off their hinges and Rumpelmayers men were coming. And then thought Clarissa Dalloway what a morning fresh as if issued to children on a beach. What a lark what a plunge. ",
+  "Someone must have slandered Josef K for one morning without having done anything wrong he was arrested. His landladys cook who brought him his breakfast every morning at eight oclock did not arrive on this occasion. That had never happened before. K waited a little while looked from his pillow at the old woman. "
+];
+var src = TEXTS[Math.floor(Math.random() * TEXTS.length)];
+var tw = document.getElementById('tw');
+var pos = 0; var rows = []; var hiNext = false;
+function twTick() {
+  var ch = src[pos % src.length]; pos++;
+  if (ch === ' ') hiNext = Math.random() < 0.13;
+  var cpl = Math.floor((window.innerWidth - 40) / 7);
+  if (rows.length === 0) rows.push([]);
+  var lastRow = rows[rows.length - 1];
+  var rowLen = 0;
+  for (var i = 0; i < lastRow.length; i++) rowLen += lastRow[i].t.length;
+  var hi = hiNext && ch !== ' ';
+  if (rowLen >= cpl) { rows.push([{t:ch,h:hi}]); }
+  else {
+    var last = lastRow.length > 0 ? lastRow[lastRow.length-1] : null;
+    if (last && last.h === hi) { last.t += ch; }
+    else { lastRow.push({t:ch,h:hi}); }
+  }
+  var maxR = Math.ceil(window.innerHeight / (12*1.7)) + 2;
+  if (rows.length > maxR) rows.shift();
+  tw.innerHTML = '';
+  for (var r = 0; r < rows.length; r++) {
+    var row = rows[r];
+    for (var s = 0; s < row.length; s++) {
+      var sp = document.createElement('span');
+      if (row[s].h) sp.className = 'hi';
+      sp.textContent = row[s].t;
+      tw.appendChild(sp);
+    }
+    if (r < rows.length-1) tw.appendChild(document.createTextNode('\n'));
+  }
+  setTimeout(twTick, 18);
+}
+twTick();
+
+// load post from URL param
+function getParam(name) {
+  return new URLSearchParams(location.search).get(name);
+}
+
+function simpleMarkdown(md) {
+  return md
+    .split('\n\n')
+    .map(function(p) {
+      p = p.trim();
+      if (!p) return '';
+      if (p.startsWith('## ')) return '<h2>' + p.slice(3) + '</h2>';
+      if (p.startsWith('---')) return '<hr>';
+      if (p.startsWith('> ')) return '<blockquote>' + p.slice(2) + '</blockquote>';
+      p = p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      p = p.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      p = p.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+      return '<p>' + p.replace(/\n/g, '<br>') + '</p>';
+    })
+    .join('');
+}
+
+var slug = getParam('post');
+if (slug) {
+  var repo = (function() {
+    var parts = location.hostname.split('.');
+    var user = parts[0];
+    var path = location.pathname.replace(/\/post\.html.*/, '').replace(/^\//, '');
+    return path ? user + '/' + path : user + '/' + user + '.github.io';
+  })();
+
+  fetch('https://api.github.com/repos/' + repo + '/contents/posts/' + slug + '.md')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+      var lines = decoded.split('\n');
+      var title = ''; var date = ''; var bodyStart = 0;
+      var inFront = false;
+      for (var i = 0; i < lines.length; i++) {
+        if (i === 0 && lines[i] === '---') { inFront = true; continue; }
+        if (inFront && lines[i] === '---') { bodyStart = i + 1; break; }
+        if (lines[i].startsWith('title: ')) title = lines[i].replace('title: ', '');
+        if (lines[i].startsWith('date: ')) date = lines[i].replace('date: ', '');
+      }
+      document.getElementById('post-title').textContent = title;
+      document.getElementById('post-date').textContent = date;
+      document.title = title;
+      var body = lines.slice(bodyStart).join('\n').trim();
+      document.getElementById('post-body').innerHTML = simpleMarkdown(body);
+    })
+    .catch(function() {
+      document.getElementById('post-title').textContent = 'post not found';
+    });
+} else {
+  document.getElementById('post-title').textContent = 'no post specified';
+}
+</script>
+</body>
+</html>

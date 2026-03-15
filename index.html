@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PERSONAL PAGE</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #fff; color: #111; font-family: Arial, Helvetica, sans-serif; font-size: 14px; }
+
+#tw {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0; pointer-events: none;
+  padding: 16px 20px;
+  font-family: "Times New Roman", serif;
+  font-size: 12px; line-height: 1.7; overflow: hidden;
+}
+#tw span { color: rgba(0,0,0,0.18); white-space: pre-wrap; word-break: break-word; }
+#tw span.hi { color: rgba(180,120,100,0.52); }
+
+#player {
+  position: fixed; bottom: 14px; right: 16px; z-index: 999;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 10px; color: #999; font-family: "Courier New", monospace;
+}
+#playbtn {
+  background: none; border: 1px solid #bbb; color: #666;
+  font-size: 11px; cursor: pointer; padding: 2px 8px;
+  font-family: "Courier New", monospace;
+}
+#playbtn:hover { color: #000; border-color: #000; }
+
+#mq-wrap {
+  background: #000; color: #fff;
+  font-size: 10px; letter-spacing: 0.03em;
+  padding: 3px 0; overflow: hidden; white-space: nowrap;
+  flex-shrink: 0;
+}
+#mq-wrap span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: mqscroll 90s linear infinite;
+  white-space: nowrap;
+}
+@keyframes mqscroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+#pg-home {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; flex-direction: column; z-index: 10;
+}
+.hnav {
+  background: rgba(255,255,255,0.93);
+  padding: 9px 20px 7px; border-bottom: 1px solid #000;
+  font-size: 12px; font-family: "Times New Roman", serif; z-index: 20;
+}
+.hnav a, #topnav a {
+  color: #00c; text-decoration: underline;
+  margin-right: 14px; cursor: pointer;
+  font-family: "Times New Roman", serif;
+}
+.hnav a:hover, #topnav a:hover { color: #c00; }
+
+.hbody {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 20px 20px 36px;
+  position: relative; z-index: 5;
+}
+.htitle {
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(28px,6vw,70px); font-weight: 900;
+  text-transform: uppercase; letter-spacing: -0.02em;
+  line-height: 0.95; margin-bottom: 14px;
+}
+.htitle .r { color: #c00; }
+.hstatus { font-family: "Times New Roman", serif; font-size: 13px; margin-bottom: 16px; min-height: 18px; }
+.hlinks { list-style: none; border-top: 1px solid rgba(0,0,0,0.15); margin-bottom: 16px; }
+.hlinks li { border-bottom: 1px solid rgba(0,0,0,0.08); padding: 4px 0; }
+.hlinks a { color: #00c; text-decoration: underline; font-size: 13px; cursor: pointer; font-family: "Times New Roman", serif; }
+.hlinks a:hover { color: #c00; }
+.hfoot { font-size: 10px; color: #888; display: flex; align-items: center; gap: 6px; }
+.ctr { background: #000; color: #0f0; font-family: "Courier New", monospace; font-size: 11px; letter-spacing: 0.15em; padding: 1px 6px; }
+.lbl { background: #000; color: #fff; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 1px 5px; font-family: Arial, sans-serif; }
+.blink { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+#pg-inner { display: none; position: relative; z-index: 10; max-width: 520px; padding: 0 20px 80px; }
+#topnav { padding: 9px 0 7px; border-bottom: 1px solid #000; font-size: 12px; }
+.phead {
+  font-family: Arial, sans-serif; font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #666; padding: 4px 0 10px;
+  border-bottom: 1px solid #ccc; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.sec { display: none; }
+.sec.on { display: block; }
+
+h1 { font-family: "Arial Black", Arial, sans-serif; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1; margin: 0 0 4px; }
+.sub { font-size: 11px; color: #777; font-family: "Times New Roman", serif; font-style: italic; margin: 5px 0 14px; }
+.deco { float: right; font-size: 18px; opacity: 0.25; margin: 0 0 8px 10px; line-height: 1.3; }
+
+.wlist { list-style: none; }
+.wlist li { border-bottom: 1px solid #ddd; padding: 5px 0; display: flex; align-items: baseline; gap: 7px; }
+.wlist a { color: #00c; text-decoration: underline; font-size: 13px; font-family: "Times New Roman", serif; }
+.wlist a:hover { color: #c00; }
+
+.ayear { font-family: "Arial Black", Arial, sans-serif; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: #777; margin: 14px 0 4px; }
+.aitem { padding: 4px 0; border-bottom: 1px dotted #ccc; }
+.aitem a { color: #00c; text-decoration: underline; font-family: "Times New Roman", serif; font-size: 13px; }
+.aitem a:hover { color: #c00; }
+
+.ntbl { border-collapse: collapse; margin-top: 6px; }
+.ntbl td { padding: 5px 0; vertical-align: top; }
+.ntbl .k { padding-right: 22px; font-size: 9px; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.12em; color: #aaa; white-space: nowrap; padding-top: 7px; }
+.ntbl .v { font-family: "Times New Roman", serif; font-size: 13px; color: #333; border-bottom: 1px dotted #e0e0e0; }
+.ntbl tr:last-child .v { border-bottom: none; }
+
+.gb { border: 1px solid #ddd; background: rgba(255,255,255,0.6); padding: 10px 12px; margin-bottom: 10px; font-size: 12px; }
+.gbh { font-size: 10px; color: #888; font-family: Arial, sans-serif; margin-bottom: 5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 3px; }
+.gbn { font-weight: bold; color: #00c; }
+.gbm { line-height: 1.6; font-family: "Times New Roman", serif; }
+
+#foot { font-size: 10px; color: #aaa; border-top: 1px solid #e0e0e0; padding-top: 8px; margin-top: 32px; font-family: Arial, sans-serif; }
+hr { border: none; border-top: 1px solid #e0e0e0; margin: 16px 0; }
+
+@media (max-width: 600px) {
+  .htitle { font-size: clamp(22px,9vw,44px); }
+  .deco { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="tw"></div>
+
+<div id="player">
+  <button id="playbtn">&#9654;</button>
+  <span>music.mp3</span>
+</div>
+<audio id="audio" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+<!-- single marquee, moved by JS -->
+<div id="mq-wrap"><span id="mq-span"></span></div>
+
+<div id="pg-home">
+  <div class="hnav">
+    <a onclick="goTo('home')">home</a>
+    <a onclick="goTo('writing')">glory hole 1</a>
+    <a onclick="goTo('about')">glory hole 2</a>
+    <a onclick="goTo('gamma')">gamma</a>
+    <a onclick="goTo('guestbook')">guestbook</a>
+  </div>
+  <div id="mq-home-slot"></div>
+  <div class="hbody">
+    <div class="htitle">Fictional Futures<br>and the Conspicuously<br>Young<span class="r">*</span></div>
+    <div class="hstatus" id="hst"></div>
+    <ul class="hlinks">
+      <li><a onclick="goTo('writing')">glory hole 1</a></li>
+      <li><a onclick="goTo('about')">glory hole 2</a></li>
+      <li><a onclick="goTo('gamma')">gamma</a></li>
+      <li><a onclick="goTo('guestbook')">guestbook</a></li>
+    </ul>
+    <div class="hfoot">
+      <span class="lbl">Visitors</span>
+      <span class="ctr" id="ctr">000841</span>
+      &nbsp;&#183;&nbsp;<span class="blink">&#9646;</span>
+    </div>
+  </div>
+</div>
+
+<div id="pg-inner">
+  <div id="topnav">
+    <a onclick="goTo('home')">home</a>
+    <a onclick="goTo('writing')">glory hole 1</a>
+    <a onclick="goTo('about')">glory hole 2</a>
+    <a onclick="goTo('gamma')">gamma</a>
+    <a onclick="goTo('guestbook')">guestbook</a>
+  </div>
+  <div class="phead">&#9632;&nbsp; PERSONAL PAGE &nbsp;&#183;&nbsp; EST. 2025 <span style="margin-left:auto">&#9650;&#9660;</span></div>
+  <div id="mq-inner-slot" style="margin-bottom:16px"></div>
+
+  <div class="sec" id="s-writing">
+    <div class="deco">&#8251;<br>&#9632;</div>
+    <h1>Velvet Remainder</h1>
+    <p class="sub">I Will Show You The Dirty Parts Of Heaven</p>
+    <ul class="wlist" id="posts-list">
+      <li style="font-style:italic;color:#aaa;font-size:12px;border:none;">loading...</li>
+    </ul>
+  </div>
+
+  <div class="sec" id="s-about">
+    <div class="deco">&#9632;<br>&#9830;</div>
+    <h1>Soft Corridor</h1>
+    <p class="sub">How to Disappear Completely and Never Be Found</p>
+    <div class="ayear">'25</div>
+    <div class="aitem"><a href="#">Hiroshi Sugimoto — Seascape series, revisited</a></div>
+    <div class="aitem"><a href="#">Blanchot: "The space of literature is not a space one inhabits"</a></div>
+    <div class="aitem"><a href="#">Felt, Felt, Felt — Ha Bak-gon, 1974</a></div>
+    <div class="aitem"><a href="#">Neon Genesis Evangelion OST: Komm, s&#xFC;sser Tod (loop 3hrs)</a></div>
+    <div class="aitem"><a href="#">screenshot of a phone screen from a train window</a></div>
+    <div class="aitem"><a href="#">Italo Calvino: "seek and learn to recognize who and what, in the midst of the inferno, are not inferno"</a></div>
+    <div class="ayear">'24</div>
+    <div class="aitem"><a href="#">Paul Thomas Anderson — Licorice Pizza, re-watch #4</a></div>
+    <div class="aitem"><a href="#">Burial: Archangel — for the 400th time probably</a></div>
+    <div class="aitem"><a href="#">W.G. Sebald: The Rings of Saturn — passage on herring fishing</a></div>
+    <div class="aitem"><a href="#">photo of a vending machine in Osaka, 2am</a></div>
+    <div class="aitem"><a href="#">Andrei Tarkovsky: Stalker — the Zone as interior</a></div>
+    <div class="aitem"><a href="#">Arca: Mutant — every track in order, rain outside</a></div>
+  </div>
+
+  <div class="sec" id="s-gamma">
+    <h1>gamma</h1>
+    <p class="sub">To Be Alone With You</p>
+    <table class="ntbl">
+      <tr><td class="k">reading</td><td class="v">Simone Weil — Gravity and Grace</td></tr>
+      <tr><td class="k">listening</td><td class="v">Grouper — Ruins</td></tr>
+      <tr><td class="k">watching</td><td class="v">nothing. the ceiling.</td></tr>
+    </table>
+    <p style="font-style:italic;font-size:11px;color:#aaa;font-family:'Times New Roman',serif;margin-top:18px;">updated sporadically</p>
+    <hr>
+    <div style="font-size:9px;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:0.12em;color:#aaa;margin-bottom:4px;">reach</div>
+    <a href="/cdn-cgi/l/email-protection#c9ada8adacbabdbbbcaabda6bbba89aea4a8a0a5e7aaa6a4" style="color:#00c;font-size:13px;font-family:'Times New Roman',serif;"><span class="__cf_email__" data-cfemail="076366636274737572647368757447606a666e6b2964686a">[email&#160;protected]</span></a>
+  </div>
+
+  <div class="sec" id="s-guestbook">
+    <div class="deco">&#9632;<br>&#9670;</div>
+    <h1>guestbook</h1>
+    <p style="font-size:11px;color:#888;font-family:Arial,sans-serif;margin:8px 0 14px;"><span class="blink">&#9646;</span>&nbsp; 4 entries</p>
+    <div class="gb"><div class="gbh"><span class="gbn">anonymous_k</span><span>2025.11.03 &nbsp; 02:14 AM</span></div><div class="gbm">found this through a mutual. the typewriter thing is so good. bookmarked.</div></div>
+    <div class="gb"><div class="gbh"><span class="gbn">m.r.</span><span>2025.10.28 &nbsp; 11:47 PM</span></div><div class="gbm">glory hole 1 and 2....... incredible naming. i need to know what the numbering system means</div></div>
+    <div class="gb"><div class="gbh"><span class="gbn">visitor_7714</span><span>2025.10.19 &nbsp; 06:02 AM</span></div><div class="gbm">this reminds me of websites i used to find at 3am when i was 14. not an insult. highest compliment.</div></div>
+    <div class="gb"><div class="gbh"><span class="gbn">????</span><span>2025.09.30 &nbsp; 09:55 PM</span></div><div class="gbm">conspicuously young*</div></div>
+    <p style="font-size:11px;color:#888;font-family:Arial,sans-serif;margin-top:14px;border-top:1px solid #eee;padding-top:8px;">&#9632;&nbsp; to leave a message: <a href="/cdn-cgi/l/email-protection#f1959095948285838492859e8382b1969c90989ddf929e9c" style="color:#00c;">email me</a> with subject line <em>guestbook</em>.</p>
+  </div>
+
+  <div id="foot">&#9632;&nbsp; &copy; 2025 &nbsp;&#183;&nbsp; Best viewed at 1024&#215;768 &nbsp;&#183;&nbsp; <span class="blink">&#9646;</span></div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+var MARQUEE = "we tell ourselves stories in order to live we look for the sermon in the suicide for the social or moral lesson in the murder of five we interpret what we see select the most workable of the multiple choices we live entirely especially if we are writers by the imposition of a narrative line upon disparate images by the ideas with which we have learned to freeze the shifting phantasmagoria which is our actual experience";
+document.getElementById('mq-span').textContent = "    " + MARQUEE + "          " + MARQUEE + "    ";
+
+var mqWrap = document.getElementById('mq-wrap');
+var mqHomeSlot = document.getElementById('mq-home-slot');
+var mqInnerSlot = document.getElementById('mq-inner-slot');
+
+// place marquee into a slot without re-inserting into DOM (preserves animation)
+function placeMq(slot) {
+  if (mqWrap.parentNode !== slot) {
+    slot.insertBefore(mqWrap, slot.firstChild);
+  }
+}
+
+function goTo(page) {
+  var home = document.getElementById('pg-home');
+  var inner = document.getElementById('pg-inner');
+  var secs = document.querySelectorAll('.sec');
+  for (var i = 0; i < secs.length; i++) secs[i].classList.remove('on');
+  if (page === 'home') {
+    home.style.display = 'flex';
+    inner.style.display = 'none';
+    placeMq(mqHomeSlot);
+  } else {
+    home.style.display = 'none';
+    inner.style.display = 'block';
+    placeMq(mqInnerSlot);
+    var s = document.getElementById('s-' + page);
+    if (s) s.classList.add('on');
+  }
+}
+
+// init: put marquee in home slot
+placeMq(mqHomeSlot);
+
+// typewriter
+var TEXTS = [
+  "Stately plump Buck Mulligan came from the stairhead bearing a bowl of lather on which a mirror and a razor lay crossed. A yellow dressinggown ungirdled was sustained gently behind him on the mild morning air. He held the bowl aloft and intoned Introibo ad altare Dei. Halted he peered down the dark winding stairs and called out coarsely Come up Kinch come up you fearful jesuit. Solemnly he came forward and mounted the round gunrest. He faced about and blessed gravely thrice the tower the surrounding land and the awaking mountains. Then catching sight of Stephen Dedalus he bent towards him and made rapid crosses in the air gurgling in his throat and shaking his head. Stephen Dedalus displeased and sleepy leaned his arms on the top of the staircase and looked coldly at the shaking gurgling face that blessed him equine in its length and at the light untonsured hair grained and hued like pale oak. ",
+  "Mrs Dalloway said she would buy the flowers herself. For Lucy had her work cut out for her. The doors would be taken off their hinges and Rumpelmayers men were coming. And then thought Clarissa Dalloway what a morning fresh as if issued to children on a beach. What a lark what a plunge. For so it had always seemed to her when with a little squeak of the hinges which she could hear now she had burst open the French windows and plunged at Bourton into the open air. How fresh how calm stiller than this of course the air was in the early morning like the flap of a wave the kiss of a wave chill and sharp and yet solemn feeling as she did standing there at the open window that something awful was about to happen. ",
+  "Someone must have slandered Josef K for one morning without having done anything wrong he was arrested. His landladys cook who brought him his breakfast every morning at eight oclock did not arrive on this occasion. That had never happened before. K waited a little while looked from his pillow at the old woman who lived opposite who was watching him with a curiosity quite unusual for her and then feeling both hungry and unsettled rang the bell. At once there was a knock at the door and a man he had never seen before in this apartment came in. He was slim yet well built dressed in a fitted black jacket and he looked practical and well prepared for his function. Who are you asked K and immediately sat up in his bed. "
+];
+
+var src = TEXTS[Math.floor(Math.random() * TEXTS.length)];
+var tw = document.getElementById('tw');
+var pos = 0;
+var rows = [];
+var hiNext = false;
+
+function tick() {
+  var ch = src[pos % src.length];
+  pos++;
+
+  if (ch === ' ') hiNext = Math.random() < 0.13;
+
+  var cpl = Math.floor((window.innerWidth - 40) / 7);
+  if (rows.length === 0) rows.push([]);
+  var lastRow = rows[rows.length - 1];
+  var rowLen = 0;
+  for (var i = 0; i < lastRow.length; i++) rowLen += lastRow[i].t.length;
+
+  var hi = hiNext && ch !== ' ';
+  if (rowLen >= cpl) {
+    rows.push([{t: ch, h: hi}]);
+  } else {
+    var last = lastRow.length > 0 ? lastRow[lastRow.length - 1] : null;
+    if (last && last.h === hi) {
+      last.t += ch;
+    } else {
+      lastRow.push({t: ch, h: hi});
+    }
+  }
+
+  var maxR = Math.ceil(window.innerHeight / (12 * 1.7)) + 2;
+  if (rows.length > maxR) rows.shift();
+
+  // render
+  tw.innerHTML = '';
+  for (var r = 0; r < rows.length; r++) {
+    var row = rows[r];
+    for (var s = 0; s < row.length; s++) {
+      var sp = document.createElement('span');
+      if (row[s].h) sp.className = 'hi';
+      sp.textContent = row[s].t;
+      tw.appendChild(sp);
+    }
+    if (r < rows.length - 1) tw.appendChild(document.createTextNode('\n'));
+  }
+
+  setTimeout(tick, 18);
+}
+tick();
+
+// Online now
+var hst = document.getElementById('hst');
+var stxt = 'Online now';
+var si = 0;
+function stTick() {
+  hst.textContent = stxt.slice(0, si);
+  si++;
+  if (si <= stxt.length) {
+    setTimeout(stTick, 80);
+  } else {
+    hst.innerHTML = stxt + ' <span class="blink">&#9646;</span>';
+  }
+}
+setTimeout(stTick, 500);
+
+// counter
+var cn = 841;
+setInterval(function() {
+  cn += Math.floor(Math.random() * 3);
+  document.getElementById('ctr').textContent = String(cn).padStart(6, '0');
+}, 4000);
+
+// load posts for glory hole 1
+function loadPostsList() {
+  var repo = (function() {
+    var parts = location.hostname.split('.');
+    var user = parts[0];
+    var path = location.pathname.replace(/\/index\.html.*/, '').replace(/^\//, '');
+    return path ? user + '/' + path : user + '/' + user + '.github.io';
+  })();
+
+  fetch('https://api.github.com/repos/' + repo + '/contents/posts')
+    .then(function(r) { return r.ok ? r.json() : []; })
+    .then(function(files) {
+      var list = document.getElementById('posts-list');
+      if (!list) return;
+      if (!Array.isArray(files) || files.length === 0) {
+        list.innerHTML = '<li style="font-style:italic;color:#aaa;font-size:12px;border:none;">no posts yet</li>';
+        return;
+      }
+      var mds = files.filter(function(f) { return f.name.endsWith('.md'); }).reverse();
+      if (mds.length === 0) {
+        list.innerHTML = '<li style="font-style:italic;color:#aaa;font-size:12px;border:none;">no posts yet</li>';
+        return;
+      }
+      list.innerHTML = '';
+      mds.forEach(function(f, i) {
+        var slug = f.name.replace(/\.md$/, '');
+        // try to get title from filename (strip date prefix and timestamp suffix)
+        var title = slug.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/-\d+$/, '').replace(/-/g, ' ');
+        var num = String(i + 1).padStart(3, '0');
+        var li = document.createElement('li');
+        li.innerHTML = '<span class="lbl">' + num + '</span><a href="post.html?post=' + encodeURIComponent(slug) + '">' + title + '</a>';
+        list.appendChild(li);
+      });
+    })
+    .catch(function() {});
+}
+loadPostsList();
+
+// audio
+var audio = document.getElementById('audio');
+var btn = document.getElementById('playbtn');
+var playing = fa
