@@ -15,7 +15,7 @@ body { background: #fff; color: #111; font-family: Arial, Helvetica, sans-serif;
   font-family: "Times New Roman", serif;
   font-size: 12px; line-height: 1.7; overflow: hidden;
 }
-#tw span { color: rgba(0,0,0,0.18); white-space: pre-wrap; word-break: break-word; }
+#tw span { color: rgba(0,0,0,0.18); }
 #tw span.hi { color: rgba(180,120,100,0.52); }
 
 #player {
@@ -51,7 +51,7 @@ body { background: #fff; color: #111; font-family: Arial, Helvetica, sans-serif;
 .hnav {
   background: rgba(255,255,255,0.93);
   padding: 9px 20px 7px; border-bottom: 1px solid #000;
-  font-size: 12px; font-family: "Times New Roman", serif; z-index: 20;
+  font-size: 12px; z-index: 20;
 }
 .hnav a, #topnav a {
   color: #00c; text-decoration: underline;
@@ -85,12 +85,7 @@ body { background: #fff; color: #111; font-family: Arial, Helvetica, sans-serif;
 
 #pg-inner { display: none; position: relative; z-index: 10; max-width: 520px; padding: 0 20px 80px; }
 #topnav { padding: 9px 0 7px; border-bottom: 1px solid #000; font-size: 12px; }
-.phead {
-  font-family: Arial, sans-serif; font-size: 10px; text-transform: uppercase;
-  letter-spacing: 0.1em; color: #666; padding: 4px 0 10px;
-  border-bottom: 1px solid #ccc; margin-bottom: 12px;
-  display: flex; align-items: center; gap: 6px;
-}
+.phead { font-family: Arial, sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #666; padding: 4px 0 10px; border-bottom: 1px solid #ccc; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
 
 .sec { display: none; }
 .sec.on { display: block; }
@@ -139,7 +134,6 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 16px 0; }
 </div>
 <audio id="audio" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
-<!-- single marquee, moved by JS -->
 <div id="mq-wrap"><span id="mq-span"></span></div>
 
 <div id="pg-home">
@@ -184,7 +178,7 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 16px 0; }
     <h1>Velvet Remainder</h1>
     <p class="sub">I Will Show You The Dirty Parts Of Heaven</p>
     <ul class="wlist" id="posts-list">
-      <li style="font-style:italic;color:#aaa;font-size:12px;border:none;">loading...</li>
+      <li style="font-style:italic;color:#aaa;font-size:12px;border:none;padding:6px 0;">loading...</li>
     </ul>
   </div>
 
@@ -219,7 +213,7 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 16px 0; }
     <p style="font-style:italic;font-size:11px;color:#aaa;font-family:'Times New Roman',serif;margin-top:18px;">updated sporadically</p>
     <hr>
     <div style="font-size:9px;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:0.12em;color:#aaa;margin-bottom:4px;">reach</div>
-    <a href="/cdn-cgi/l/email-protection#c9ada8adacbabdbbbcaabda6bbba89aea4a8a0a5e7aaa6a4" style="color:#00c;font-size:13px;font-family:'Times New Roman',serif;"><span class="__cf_email__" data-cfemail="076366636274737572647368757447606a666e6b2964686a">[email&#160;protected]</span></a>
+    <a href="mailto:dadestructors@gmail.com" style="color:#00c;font-size:13px;font-family:'Times New Roman',serif;">dadestructors@gmail.com</a>
   </div>
 
   <div class="sec" id="s-guestbook">
@@ -230,13 +224,14 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 16px 0; }
     <div class="gb"><div class="gbh"><span class="gbn">m.r.</span><span>2025.10.28 &nbsp; 11:47 PM</span></div><div class="gbm">glory hole 1 and 2....... incredible naming. i need to know what the numbering system means</div></div>
     <div class="gb"><div class="gbh"><span class="gbn">visitor_7714</span><span>2025.10.19 &nbsp; 06:02 AM</span></div><div class="gbm">this reminds me of websites i used to find at 3am when i was 14. not an insult. highest compliment.</div></div>
     <div class="gb"><div class="gbh"><span class="gbn">????</span><span>2025.09.30 &nbsp; 09:55 PM</span></div><div class="gbm">conspicuously young*</div></div>
-    <p style="font-size:11px;color:#888;font-family:Arial,sans-serif;margin-top:14px;border-top:1px solid #eee;padding-top:8px;">&#9632;&nbsp; to leave a message: <a href="/cdn-cgi/l/email-protection#f1959095948285838492859e8382b1969c90989ddf929e9c" style="color:#00c;">email me</a> with subject line <em>guestbook</em>.</p>
+    <p style="font-size:11px;color:#888;font-family:Arial,sans-serif;margin-top:14px;border-top:1px solid #eee;padding-top:8px;">&#9632;&nbsp; to leave a message: <a href="mailto:dadestructors@gmail.com" style="color:#00c;">email me</a> with subject line <em>guestbook</em>.</p>
   </div>
 
   <div id="foot">&#9632;&nbsp; &copy; 2025 &nbsp;&#183;&nbsp; Best viewed at 1024&#215;768 &nbsp;&#183;&nbsp; <span class="blink">&#9646;</span></div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+// marquee
 var MARQUEE = "we tell ourselves stories in order to live we look for the sermon in the suicide for the social or moral lesson in the murder of five we interpret what we see select the most workable of the multiple choices we live entirely especially if we are writers by the imposition of a narrative line upon disparate images by the ideas with which we have learned to freeze the shifting phantasmagoria which is our actual experience";
 document.getElementById('mq-span').textContent = "    " + MARQUEE + "          " + MARQUEE + "    ";
 
@@ -244,18 +239,18 @@ var mqWrap = document.getElementById('mq-wrap');
 var mqHomeSlot = document.getElementById('mq-home-slot');
 var mqInnerSlot = document.getElementById('mq-inner-slot');
 
-// place marquee into a slot without re-inserting into DOM (preserves animation)
 function placeMq(slot) {
-  if (mqWrap.parentNode !== slot) {
-    slot.insertBefore(mqWrap, slot.firstChild);
-  }
+  slot.appendChild(mqWrap);
 }
 
+// nav
 function goTo(page) {
   var home = document.getElementById('pg-home');
   var inner = document.getElementById('pg-inner');
   var secs = document.querySelectorAll('.sec');
-  for (var i = 0; i < secs.length; i++) secs[i].classList.remove('on');
+  for (var i = 0; i < secs.length; i++) {
+    secs[i].classList.remove('on');
+  }
   if (page === 'home') {
     home.style.display = 'flex';
     inner.style.display = 'none';
@@ -269,7 +264,6 @@ function goTo(page) {
   }
 }
 
-// init: put marquee in home slot
 placeMq(mqHomeSlot);
 
 // typewriter
@@ -288,15 +282,12 @@ var hiNext = false;
 function tick() {
   var ch = src[pos % src.length];
   pos++;
-
-  if (ch === ' ') hiNext = Math.random() < 0.13;
-
+  if (ch === ' ') hiNext = (Math.random() < 0.13);
   var cpl = Math.floor((window.innerWidth - 40) / 7);
   if (rows.length === 0) rows.push([]);
   var lastRow = rows[rows.length - 1];
   var rowLen = 0;
   for (var i = 0; i < lastRow.length; i++) rowLen += lastRow[i].t.length;
-
   var hi = hiNext && ch !== ' ';
   if (rowLen >= cpl) {
     rows.push([{t: ch, h: hi}]);
@@ -308,28 +299,23 @@ function tick() {
       lastRow.push({t: ch, h: hi});
     }
   }
-
   var maxR = Math.ceil(window.innerHeight / (12 * 1.7)) + 2;
   if (rows.length > maxR) rows.shift();
-
-  // render
   tw.innerHTML = '';
   for (var r = 0; r < rows.length; r++) {
-    var row = rows[r];
-    for (var s = 0; s < row.length; s++) {
+    for (var s = 0; s < rows[r].length; s++) {
       var sp = document.createElement('span');
-      if (row[s].h) sp.className = 'hi';
-      sp.textContent = row[s].t;
+      if (rows[r][s].h) sp.className = 'hi';
+      sp.textContent = rows[r][s].t;
       tw.appendChild(sp);
     }
     if (r < rows.length - 1) tw.appendChild(document.createTextNode('\n'));
   }
-
   setTimeout(tick, 18);
 }
 tick();
 
-// Online now
+// online now
 var hst = document.getElementById('hst');
 var stxt = 'Online now';
 var si = 0;
@@ -351,14 +337,27 @@ setInterval(function() {
   document.getElementById('ctr').textContent = String(cn).padStart(6, '0');
 }, 4000);
 
-// load posts for glory hole 1
+// audio
+var audio = document.getElementById('audio');
+var btn = document.getElementById('playbtn');
+var playing = false;
+audio.play().then(function() {
+  playing = true;
+  btn.innerHTML = '&#9646;';
+}).catch(function() {});
+btn.onclick = function() {
+  if (playing) { audio.pause(); btn.innerHTML = '&#9654;'; }
+  else { audio.play(); btn.innerHTML = '&#9646;'; }
+  playing = !playing;
+};
+
+// posts list
 function loadPostsList() {
-  var repo = (function() {
-    var parts = location.hostname.split('.');
-    var user = parts[0];
-    var path = location.pathname.replace(/\/index\.html.*/, '').replace(/^\//, '');
-    return path ? user + '/' + path : user + '/' + user + '.github.io';
-  })();
+  var parts = location.hostname.split('.');
+  var user = parts[0];
+  var path = location.pathname.replace(/\/index\.html$/, '').replace(/^\//, '').replace(/\/$/, '');
+  var repo = path ? user + '/' + path : user + '/' + user + '.github.io';
+  var base = path ? '/' + path : '';
 
   fetch('https://api.github.com/repos/' + repo + '/contents/posts')
     .then(function(r) { return r.ok ? r.json() : []; })
@@ -366,30 +365,37 @@ function loadPostsList() {
       var list = document.getElementById('posts-list');
       if (!list) return;
       if (!Array.isArray(files) || files.length === 0) {
-        list.innerHTML = '<li style="font-style:italic;color:#aaa;font-size:12px;border:none;">no posts yet</li>';
+        list.innerHTML = '<li style="font-style:italic;color:#aaa;font-size:12px;border:none;padding:6px 0;">no posts yet</li>';
         return;
       }
       var mds = files.filter(function(f) { return f.name.endsWith('.md'); }).reverse();
       if (mds.length === 0) {
-        list.innerHTML = '<li style="font-style:italic;color:#aaa;font-size:12px;border:none;">no posts yet</li>';
+        list.innerHTML = '<li style="font-style:italic;color:#aaa;font-size:12px;border:none;padding:6px 0;">no posts yet</li>';
         return;
       }
       list.innerHTML = '';
       mds.forEach(function(f, i) {
         var slug = f.name.replace(/\.md$/, '');
-        // try to get title from filename (strip date prefix and timestamp suffix)
         var title = slug.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/-\d+$/, '').replace(/-/g, ' ');
         var num = String(i + 1).padStart(3, '0');
         var li = document.createElement('li');
-        li.innerHTML = '<span class="lbl">' + num + '</span><a href="post.html?post=' + encodeURIComponent(slug) + '">' + title + '</a>';
+        var lbl = document.createElement('span');
+        lbl.className = 'lbl';
+        lbl.textContent = num;
+        var a = document.createElement('a');
+        a.href = base + '/post.html?post=' + encodeURIComponent(slug);
+        a.textContent = title;
+        li.appendChild(lbl);
+        li.appendChild(a);
         list.appendChild(li);
       });
     })
-    .catch(function() {});
+    .catch(function() {
+      var list = document.getElementById('posts-list');
+      if (list) list.innerHTML = '<li style="font-style:italic;color:#aaa;font-size:12px;border:none;padding:6px 0;">no posts yet</li>';
+    });
 }
 loadPostsList();
-
-// audio
-var audio = document.getElementById('audio');
-var btn = document.getElementById('playbtn');
-var playing = fa
+</script>
+</body>
+</html>
