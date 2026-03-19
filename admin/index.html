@@ -7,210 +7,268 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #fff; font-family: "Times New Roman", serif; font-size: 14px; color: #111; }
- 
+
 #login-screen {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   display: flex; align-items: center; justify-content: center;
   flex-direction: column; gap: 12px;
 }
 #login-screen h2 { font-family: "Arial Black", sans-serif; font-size: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
-#pw-input {
+input[type=password], input[type=text], textarea {
   border: 1px solid #000; padding: 6px 10px;
   font-family: "Times New Roman", serif; font-size: 14px;
-  width: 240px; outline: none;
+  outline: none; background: #fff;
 }
-#pw-btn {
+.btn {
   background: #000; color: #fff; border: none;
   padding: 6px 18px; cursor: pointer;
   font-family: Arial, sans-serif; font-size: 11px;
   text-transform: uppercase; letter-spacing: 0.1em;
 }
-#pw-err { font-size: 11px; color: #c00; font-style: italic; display: none; }
- 
-#editor-screen { display: none; max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
-.ed-label { font-size: 9px; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.12em; color: #aaa; margin-bottom: 4px; }
-#ed-title {
-  width: 100%; border: none; border-bottom: 1px solid #ccc;
-  font-family: "Arial Black", sans-serif; font-size: 20px;
-  font-weight: 900; text-transform: uppercase; outline: none;
-  padding: 4px 0 6px; margin-bottom: 20px; background: transparent;
-}
-#ed-title:focus { border-bottom-color: #000; }
-#ed-body {
-  width: 100%; min-height: 400px;
-  border: 1px solid #ddd; padding: 14px;
-  font-family: "Times New Roman", serif; font-size: 14px;
-  line-height: 1.8; outline: none; resize: vertical;
-  background: transparent;
-}
-#ed-body:focus { border-color: #aaa; }
-.ed-row { display: flex; gap: 10px; align-items: center; margin-top: 16px; flex-wrap: wrap; }
-#save-btn {
-  background: #000; color: #fff; border: none;
-  padding: 7px 22px; cursor: pointer;
+.btn:hover { background: #333; }
+.btn:disabled { background: #999; cursor: default; }
+.btn-ghost {
+  background: none; border: 1px solid #000;
+  padding: 5px 14px; cursor: pointer;
   font-family: Arial, sans-serif; font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.1em;
+  text-transform: uppercase; letter-spacing: 0.08em;
 }
-#save-btn:hover { background: #333; }
-#save-btn:disabled { background: #999; cursor: default; }
-#status { font-size: 11px; color: #888; font-style: italic; }
-#post-list { margin-top: 40px; border-top: 1px solid #e0e0e0; padding-top: 20px; }
-#post-list h3 { font-family: "Arial Black", sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
-.post-item { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px dotted #ddd; font-size: 13px; gap: 10px; }
-.post-item a { color: #00c; text-decoration: underline; cursor: pointer; flex: 1; }
-.post-item a:hover { color: #c00; }
-.del-btn { font-size: 10px; color: #c00; cursor: pointer; background: none; border: none; font-family: Arial, sans-serif; white-space: nowrap; }
-.del-btn:hover { text-decoration: underline; }
-#new-btn { background: none; border: 1px solid #000; padding: 4px 12px; cursor: pointer; font-family: Arial, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; }
-#new-btn:hover { background: #000; color: #fff; }
+.btn-ghost:hover { background: #000; color: #fff; }
+
+#err { font-size: 11px; color: #c00; font-style: italic; display: none; }
+
+#main { display: none; max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+.topbar {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid #000; padding-bottom: 8px; margin-bottom: 24px;
+}
+.topbar-title { font-family: "Arial Black", sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; }
+.topbar a { font-size: 11px; color: #00c; text-decoration: underline; font-family: Arial, sans-serif; }
+
+.token-bar {
+  background: #f8f8f8; border: 1px solid #e0e0e0;
+  padding: 10px 14px; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.token-bar label { font-size: 9px; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.12em; color: #aaa; white-space: nowrap; }
+#token-input { flex: 1; min-width: 200px; font-size: 12px; padding: 4px 8px; border: 1px solid #ccc; }
+#token-status { font-size: 11px; font-style: italic; color: #888; }
+
+.lbl { font-size: 9px; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.12em; color: #aaa; margin-bottom: 4px; display: block; }
+
+#ed-area { display: none; margin-bottom: 32px; }
+#ed-title { width: 100%; font-family: "Arial Black", sans-serif; font-size: 20px; font-weight: 900; text-transform: uppercase; padding: 4px 0 6px; border: none; border-bottom: 1px solid #ccc; margin-bottom: 20px; }
+#ed-title:focus { border-bottom-color: #000; outline: none; }
+#ed-body { width: 100%; min-height: 360px; padding: 14px; font-size: 14px; line-height: 1.8; resize: vertical; border: 1px solid #ddd; }
+#ed-body:focus { border-color: #aaa; outline: none; }
+.ed-actions { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+#save-status { font-size: 11px; color: #888; font-style: italic; }
+
+.section-title { font-family: "Arial Black", sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.post-item { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px dotted #ddd; gap: 10px; }
+.post-item-title { font-size: 13px; color: #00c; text-decoration: underline; cursor: pointer; flex: 1; }
+.post-item-title:hover { color: #c00; }
+.post-del { font-size: 10px; color: #c00; cursor: pointer; background: none; border: none; font-family: Arial, sans-serif; }
+.post-del:hover { text-decoration: underline; }
+#no-posts { font-size: 12px; color: #aaa; font-style: italic; }
 </style>
 </head>
 <body>
- 
+
+<!-- login -->
 <div id="login-screen">
   <h2>&#9632; admin</h2>
-  <input type="password" id="pw-input" placeholder="password" onkeydown="if(event.key==='Enter')tryLogin()">
-  <button id="pw-btn" onclick="tryLogin()">enter</button>
-  <span id="pw-err">wrong password</span>
+  <input type="password" id="pw" placeholder="password" onkeydown="if(event.key==='Enter')login()">
+  <button class="btn" onclick="login()">enter</button>
+  <span id="err">wrong password</span>
 </div>
- 
-<div id="editor-screen">
-  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px;border-bottom:1px solid #000;padding-bottom:8px;">
-    <span style="font-family:'Arial Black',sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:0.08em;">&#9632; admin</span>
-    <a href="../" style="font-size:11px;color:#00c;text-decoration:underline;font-family:Arial,sans-serif;">← back to site</a>
+
+<!-- main -->
+<div id="main">
+  <div class="topbar">
+    <span class="topbar-title">&#9632; admin</span>
+    <a href="../">← back to site</a>
   </div>
- 
-  <button id="new-btn" onclick="newPost()">+ new post</button>
- 
-  <div id="edit-area" style="display:none;">
-    <div class="ed-label">title</div>
+
+  <!-- token bar -->
+  <div class="token-bar">
+    <label>GitHub Token</label>
+    <input type="password" id="token-input" placeholder="ghp_...">
+    <button class="btn" onclick="setToken()">set</button>
+    <span id="token-status"></span>
+  </div>
+
+  <!-- new post button -->
+  <button class="btn-ghost" onclick="newPost()" style="margin-bottom:24px;">+ new post</button>
+
+  <!-- editor -->
+  <div id="ed-area">
+    <span class="lbl">title</span>
     <input type="text" id="ed-title" placeholder="POST TITLE">
-    <div class="ed-label">body (markdown ok)</div>
+    <span class="lbl" style="margin-top:16px;">body</span>
     <textarea id="ed-body" placeholder="write here..."></textarea>
-    <div class="ed-row">
-      <button id="save-btn" onclick="savePost()">save</button>
-      <span id="status"></span>
-      <button onclick="cancelEdit()" style="background:none;border:none;cursor:pointer;font-size:11px;color:#888;font-family:Arial,sans-serif;text-decoration:underline;">cancel</button>
+    <div class="ed-actions">
+      <button class="btn" id="save-btn" onclick="savePost()">save</button>
+      <button class="btn-ghost" onclick="cancelEdit()">cancel</button>
+      <span id="save-status"></span>
     </div>
   </div>
- 
-  <div id="post-list">
-    <h3>posts</h3>
-    <div id="posts-container"><span style="font-size:12px;color:#aaa;font-style:italic;">loading...</span></div>
+
+  <!-- post list -->
+  <div id="posts-section">
+    <div class="section-title">posts</div>
+    <div id="posts-container"><span id="no-posts">loading...</span></div>
   </div>
 </div>
- 
+
 <script>
 var PASS = 'postirony';
-var TOKEN = null;
+var TOKEN = '';
 var editingSlug = null;
- 
-function tryLogin() {
-  var val = document.getElementById('pw-input').value;
-  if (val === PASS) {
+
+function login() {
+  if (document.getElementById('pw').value === PASS) {
     document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('editor-screen').style.display = 'block';
+    document.getElementById('main').style.display = 'block';
+    // restore token if saved
+    var saved = sessionStorage.getItem('gh_tok');
+    if (saved) {
+      document.getElementById('token-input').value = saved;
+      TOKEN = saved;
+      document.getElementById('token-status').textContent = 'token set';
+    }
     loadPosts();
   } else {
-    document.getElementById('pw-err').style.display = 'block';
+    document.getElementById('err').style.display = 'block';
   }
 }
- 
-function slug(title) {
-  return title.toLowerCase().replace(/[^a-z0-9가-힣]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now();
+
+function setToken() {
+  var t = document.getElementById('token-input').value.trim();
+  if (!t) return;
+  TOKEN = t;
+  sessionStorage.setItem('gh_tok', t);
+  document.getElementById('token-status').textContent = 'token set ✓';
 }
- 
+
+function getRepo() {
+  var user = location.hostname.split('.')[0];
+  var path = location.pathname.replace(/\/admin\/?.*/, '').replace(/^\/|\/$/g, '');
+  return path ? user + '/' + path : user + '/' + user + '.github.io';
+}
+
 function newPost() {
   editingSlug = null;
   document.getElementById('ed-title').value = '';
   document.getElementById('ed-body').value = '';
-  document.getElementById('edit-area').style.display = 'block';
-  document.getElementById('status').textContent = '';
+  document.getElementById('save-status').textContent = '';
+  document.getElementById('ed-area').style.display = 'block';
   document.getElementById('ed-title').focus();
 }
- 
+
 function cancelEdit() {
-  document.getElementById('edit-area').style.display = 'none';
+  document.getElementById('ed-area').style.display = 'none';
   editingSlug = null;
 }
- 
+
 function savePost() {
+  if (!TOKEN) { alert('토큰을 먼저 입력하고 Set 버튼을 눌러주세요.'); return; }
   var title = document.getElementById('ed-title').value.trim();
   var body = document.getElementById('ed-body').value;
-  if (!title) { alert('title needed'); return; }
- 
+  if (!title) { alert('제목을 입력해주세요.'); return; }
+
   var btn = document.getElementById('save-btn');
-  var st = document.getElementById('status');
+  var st = document.getElementById('save-status');
   btn.disabled = true;
   st.textContent = 'saving...';
- 
+
   var date = new Date().toISOString().split('T')[0];
-  var filename = editingSlug || (date + '-' + slug(title));
+  var slugTitle = title.toLowerCase().replace(/[^a-z0-9가-힣]+/g, '-').replace(/^-|-$/g, '');
+  var filename = editingSlug || (date + '-' + slugTitle);
   var content = '---\ntitle: ' + title + '\ndate: ' + date + '\n---\n\n' + body;
   var encoded = btoa(unescape(encodeURIComponent(content)));
- 
-  var repo = getRepo();
-  var url = 'https://api.github.com/repos/' + repo + '/contents/posts/' + filename + '.md';
- 
-  // check if file exists first (for update)
-  fetch(url, { headers: { 'Authorization': 'token ' + TOKEN, 'Accept': 'application/vnd.github.v3+json' } })
-    .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(existing) {
-      var payload = { message: 'post: ' + title, content: encoded };
-      if (existing) payload.sha = existing.sha;
-      return fetch(url, {
-        method: 'PUT',
-        headers: { 'Authorization': 'token ' + TOKEN, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
-        body: JSON.stringify(payload)
-      });
-    })
-    .then(function(r) {
-      if (r.ok) {
-        st.textContent = 'saved!';
-        btn.disabled = false;
-        cancelEdit();
-        loadPosts();
-      } else {
-        st.textContent = 'error — need GitHub token (see below)';
-        btn.disabled = false;
-      }
+  var url = 'https://api.github.com/repos/' + getRepo() + '/contents/posts/' + filename + '.md';
+
+  fetch(url, {
+    headers: { 'Authorization': 'token ' + TOKEN, 'Accept': 'application/vnd.github.v3+json' }
+  })
+  .then(function(r) { return r.ok ? r.json() : null; })
+  .then(function(existing) {
+    var payload = { message: 'post: ' + title, content: encoded };
+    if (existing && existing.sha) payload.sha = existing.sha;
+    return fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + TOKEN,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      body: JSON.stringify(payload)
     });
+  })
+  .then(function(r) {
+    btn.disabled = false;
+    if (r.ok) {
+      st.textContent = 'saved!';
+      cancelEdit();
+      loadPosts();
+    } else {
+      r.json().then(function(e) {
+        st.textContent = 'error: ' + (e.message || r.status);
+      });
+    }
+  })
+  .catch(function(e) {
+    btn.disabled = false;
+    st.textContent = 'error: ' + e.message;
+  });
 }
- 
+
 function loadPosts() {
-  var repo = getRepo();
-  fetch('https://api.github.com/repos/' + repo + '/contents/posts', {
+  fetch('https://api.github.com/repos/' + getRepo() + '/contents/posts', {
     headers: TOKEN ? { 'Authorization': 'token ' + TOKEN } : {}
   })
   .then(function(r) { return r.ok ? r.json() : []; })
   .then(function(files) {
     var c = document.getElementById('posts-container');
     if (!Array.isArray(files) || files.length === 0) {
-      c.innerHTML = '<span style="font-size:12px;color:#aaa;font-style:italic;">no posts yet</span>';
+      c.innerHTML = '<span id="no-posts">no posts yet</span>';
       return;
     }
-    var html = '';
-    files.filter(function(f) { return f.name.endsWith('.md'); })
-         .reverse()
-         .forEach(function(f) {
-           var name = f.name.replace(/\.md$/, '');
-           html += '<div class="post-item"><a onclick="editPost(\'' + f.name + '\',\'' + f.sha + '\')">' + name + '</a><button class="del-btn" onclick="deletePost(\'' + f.name + '\',\'' + f.sha + '\')">delete</button></div>';
-         });
-    c.innerHTML = html || '<span style="font-size:12px;color:#aaa;font-style:italic;">no posts yet</span>';
+    var mds = files.filter(function(f) { return f.name.endsWith('.md'); }).reverse();
+    if (mds.length === 0) { c.innerHTML = '<span id="no-posts">no posts yet</span>'; return; }
+    c.innerHTML = '';
+    mds.forEach(function(f) {
+      var div = document.createElement('div');
+      div.className = 'post-item';
+      var title = document.createElement('span');
+      title.className = 'post-item-title';
+      title.textContent = f.name.replace(/\.md$/, '');
+      title.onclick = function() { editPost(f.name, f.sha); };
+      var del = document.createElement('button');
+      del.className = 'post-del';
+      del.textContent = 'delete';
+      del.onclick = function() { deletePost(f.name, f.sha); };
+      div.appendChild(title);
+      div.appendChild(del);
+      c.appendChild(div);
+    });
+  })
+  .catch(function() {
+    document.getElementById('posts-container').innerHTML = '<span id="no-posts">posts 폴더가 없거나 불러오기 실패</span>';
   });
 }
- 
+
 function editPost(filename, sha) {
-  var repo = getRepo();
-  fetch('https://api.github.com/repos/' + repo + '/contents/posts/' + filename, {
+  fetch('https://api.github.com/repos/' + getRepo() + '/contents/posts/' + filename, {
     headers: TOKEN ? { 'Authorization': 'token ' + TOKEN } : {}
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
-    var decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    var decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
     var lines = decoded.split('\n');
-    var title = '';
-    var bodyStart = 0;
+    var title = ''; var bodyStart = 0;
     for (var i = 0; i < lines.length; i++) {
       if (lines[i].startsWith('title: ')) title = lines[i].replace('title: ', '');
       if (lines[i] === '---' && i > 0) { bodyStart = i + 2; break; }
@@ -218,36 +276,24 @@ function editPost(filename, sha) {
     document.getElementById('ed-title').value = title;
     document.getElementById('ed-body').value = lines.slice(bodyStart).join('\n').trim();
     editingSlug = filename.replace(/\.md$/, '');
-    document.getElementById('edit-area').style.display = 'block';
-    document.getElementById('ed-title').focus();
+    document.getElementById('ed-area').style.display = 'block';
+    window.scrollTo(0, 0);
   });
 }
- 
+
 function deletePost(filename, sha) {
-  if (!confirm('delete ' + filename + '?')) return;
-  var repo = getRepo();
-  fetch('https://api.github.com/repos/' + repo + '/contents/posts/' + filename, {
+  if (!TOKEN) { alert('토큰을 먼저 입력하고 Set 버튼을 눌러주세요.'); return; }
+  if (!confirm(filename + ' 삭제할까요?')) return;
+  fetch('https://api.github.com/repos/' + getRepo() + '/contents/posts/' + filename, {
     method: 'DELETE',
-    headers: { 'Authorization': 'token ' + TOKEN, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
+    headers: {
+      'Authorization': 'token ' + TOKEN,
+      'Content-Type': 'application/json',
+      'Accept': 'application/vnd.github.v3+json'
+    },
     body: JSON.stringify({ message: 'delete: ' + filename, sha: sha })
   }).then(function() { loadPosts(); });
 }
- 
-function getRepo() {
-  var parts = location.hostname.split('.');
-  var user = parts[0];
-  var path = location.pathname.replace(/\/admin\/?$/, '').replace(/^\//, '');
-  return path ? user + '/' + path : user + '/' + user + '.github.io';
-}
- 
-// token prompt — needed for write access
-setTimeout(function() {
-  var t = localStorage.getItem('gh_token');
-  if (t) { TOKEN = t; return; }
-  var msg = 'To save posts, enter a GitHub Personal Access Token.\n\nGet one at: github.com/settings/tokens\n(needs "repo" scope)\n\nYour token:';
-  var tok = prompt(msg);
-  if (tok) { TOKEN = tok.trim(); localStorage.setItem('gh_token', TOKEN); }
-}, 100);
 </script>
 </body>
 </html>
