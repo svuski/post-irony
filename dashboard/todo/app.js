@@ -1,4 +1,5 @@
 const KEY='task-system-v1';
+const SEED_KEY='task-system-seed-20260916-1';
 const uid=()=>crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random());
 const esc=(s='')=>String(s).replace(/[&<>'\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));
 const areas={alpha:{name:'ALPHA'},beta:{name:'BETA'},gamma:{name:'GAMMA'}};
@@ -7,10 +8,22 @@ const TRAILS={quarter:'MONTH · WEEK · DAY',month:'WEEK · DAY',week:'DAY',toda
 const COLORS=['red','orange','yellow','green','blue','purple'];
 const COLOR_HEX={red:'#d95b5b',orange:'#e28b45',yellow:'#d6b73f',green:'#5d9a67',blue:'#5d83c4',purple:'#8b6ec1'};
 let data=load();
+seedTasksOnce();
 let calendarDate=new Date();calendarDate.setDate(1);
 let selectedDate='';let currentHorizon='today';
 
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY))||{};x.tasks=(x.tasks||[]).map(t=>({...t,focus:t.focus==='yes'||t.focus===true?'yes':''}));x.events=x.events||[];return x}catch{return{tasks:[],events:[]}}}
+function seedTasksOnce(){
+  if(localStorage.getItem(SEED_KEY))return;
+  const additions=[
+    {id:'seed-jpt-registration-20260916',text:'JPT 접수',horizon:'week',area:'alpha',due:'',priority:'normal',notes:'',focus:'',done:false},
+    {id:'seed-resume-sales-pr-20260916',text:'이력서 해영/PR 작성',horizon:'week',area:'alpha',due:'',priority:'normal',notes:'',focus:'',done:false},
+    {id:'seed-body-snatchers-20260916',text:'신체강탈자의 침입 마저 보기',horizon:'today',area:'beta',due:'2026-09-16',priority:'normal',notes:'',focus:'',done:false}
+  ];
+  additions.forEach(t=>{if(!data.tasks.some(x=>x.id===t.id||(x.text===t.text&&x.horizon===t.horizon&&x.area===t.area)))data.tasks.push(t)});
+  localStorage.setItem(KEY,JSON.stringify(data));
+  localStorage.setItem(SEED_KEY,'1');
+}
 function save(){localStorage.setItem(KEY,JSON.stringify(data));render();refreshOpenDialogs()}
 function fmt(d){if(!d)return'';return new Intl.DateTimeFormat('ko-KR',{month:'numeric',day:'numeric'}).format(new Date(d+'T00:00:00'))}
 function isoToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
