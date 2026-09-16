@@ -1,7 +1,7 @@
 const KEY='task-system-v1';
 const uid=()=>crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random());
 const esc=(s='')=>String(s).replace(/[&<>'\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));
-const areas={alpha:{name:'Alpha',desc:'CAREER'},beta:{name:'Beta',desc:'CULTURE'},gamma:{name:'Gamma',desc:'SELF'}};
+const areas={alpha:{name:'ALPHA',desc:'CAREER'},beta:{name:'BETA',desc:'CULTURE'},gamma:{name:'GAMMA',desc:'SELF'}};
 const HORIZONS=[['quarter','QUARTER'],['month','MONTH'],['week','WEEK'],['today','DAY']];
 let data=load();
 let calendarDate=new Date();
@@ -24,10 +24,10 @@ function renderHorizons(){
     const items=data.tasks.filter(t=>t.horizon===key);
     const left=items.filter(t=>!t.done).length;
     const pct=progressFor(key);
-    return `<section class="horizon glass"><button class="horizon-head accordion-toggle ${key==='today'?'expanded':''}" type="button" data-toggle-section="panel-${key}"><div><div class="section-kicker">Planning horizon</div><div class="horizon-title">${title}</div></div><div class="horizon-status"><span>${left} LEFT</span><div class="mini-progress"><i style="width:${pct}%"></i></div><span>${pct}%</span><span class="chevron">⌄</span></div></button><div id="panel-${key}" class="accordion-panel ${key==='today'?'open':''}"><div class="areas">${Object.entries(areas).map(([area,a])=>renderArea(key,area,a)).join('')}</div></div></section>`
+    return `<section class="horizon"><button class="horizon-head accordion-toggle ${key==='today'?'expanded':''}" type="button" data-toggle-section="panel-${key}"><div class="horizon-title">${title}</div><div class="horizon-status"><span>${left} LEFT</span><div class="mini-progress"><i style="width:${pct}%"></i></div><span>${pct}%</span><span class="chevron">⌄</span></div></button><div id="panel-${key}" class="accordion-panel ${key==='today'?'open':''}"><div class="horizon-banner glass"><div class="areas">${Object.entries(areas).map(([area,a])=>renderArea(key,area,a)).join('')}</div></div></div></section>`
   }).join('')
 }
-function renderArea(horizon,area,a){const tasks=data.tasks.filter(t=>t.horizon===horizon&&t.area===area);return `<section class="area"><div class="area-head"><span class="area-name">${a.name}</span><span class="area-desc">${a.desc}</span></div><div class="task-list">${tasks.length?tasks.map(renderTask).join(''):'<div class="empty">비어 있음.</div>'}</div></section>`}
+function renderArea(horizon,area,a){const tasks=data.tasks.filter(t=>t.horizon===horizon&&t.area===area);return `<section class="area area-${area}"><div class="area-head"><span class="area-name">${a.name}</span><span class="area-desc">${a.desc}</span></div><div class="task-list">${tasks.length?tasks.map(renderTask).join(''):'<div class="empty">비어 있음.</div>'}</div></section>`}
 function renderTask(t){return `<div class="task ${t.done?'done':''} priority-${esc(t.priority||'normal')}"><input type="checkbox" data-toggle="${t.id}" ${t.done?'checked':''} aria-label="완료"><div><div class="task-text">${esc(t.text)}</div><div class="task-meta">${t.due?fmt(t.due):''}${t.notes?(t.due?' · ':'')+esc(t.notes):''}</div></div><button data-edit="${t.id}">EDIT</button></div>`}
 
 function renderCalendar(){
