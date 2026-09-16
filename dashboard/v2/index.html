@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Job Hunt Control Room</title>
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css?v=4" />
 </head>
 <body>
   <main class="shell">
@@ -19,13 +19,16 @@
     <section class="summary">
       <article class="metric"><div class="label">Active applications</div><div class="value" id="mActive">0</div><div class="sub">제출 이후 진행 중</div></article>
       <article class="metric"><div class="label">Next deadline</div><div class="value" id="mDeadline">—</div><div class="sub" id="mDeadlineSub">등록된 마감 없음</div></article>
-      <article class="metric"><div class="label">Next exam</div><div class="value" id="mExam">—</div><div class="sub" id="mExamSub">등록된 시험 없음</div></article>
+      <article class="metric exam-metric">
+        <div class="metric-top"><div class="label">Next exam</div><button class="mini-btn" id="resumeVaultBtn">이력서</button></div>
+        <div class="value" id="mExam">—</div><div class="sub" id="mExamSub">등록된 시험 없음</div>
+      </article>
     </section>
 
     <div class="layout">
       <section class="panel applications-panel">
         <div class="panel-head">
-          <div><div class="panel-title">Applications</div><div class="panel-note">지원서 파이프라인</div></div>
+          <div><div class="panel-title">Applications</div><div class="panel-note">지원했거나 지원 예정인 기업들</div></div>
           <button class="btn primary" id="addJobBtn">+ 지원 추가</button>
         </div>
         <div class="toolbar">
@@ -49,6 +52,14 @@
       <div class="stack">
         <section class="panel">
           <div class="panel-head">
+            <div><div class="panel-title">Exams</div><div class="panel-note">접수 · 시험 · 결과 일정</div></div>
+            <button class="btn" id="addExamBtn">+ 시험</button>
+          </div>
+          <div class="exam-list" id="examList"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
             <div><div class="panel-title">Job search</div><div class="panel-note">사람인 / 잡코리아 빠른 검색</div></div>
           </div>
           <div class="job-search-box">
@@ -57,37 +68,6 @@
               <button class="btn" id="searchSaraminBtn">사람인에서 보기 ↗</button>
               <button class="btn" id="searchJobkoreaBtn">잡코리아에서 보기 ↗</button>
             </div>
-            <div class="integration-note">
-              <strong>사람인 API</strong><span>공식 API 연결 가능 · access key + 비공개 백엔드 필요</span>
-              <strong>잡코리아</strong><span>공개 공식 검색 API 미확인 · 현재는 링크 연결</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head">
-            <div><div class="panel-title">Exams</div><div class="panel-note">메인은 하나. 나머지는 보조.</div></div>
-            <button class="btn" id="addExamBtn">+ 시험</button>
-          </div>
-          <div class="exam-list" id="examList"></div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head">
-            <div><div class="panel-title">Resume vault</div><div class="panel-note">PDF · HWP/HWPX · DOC/DOCX · 브라우저에만 저장</div></div>
-            <label class="btn" for="resumeInput">+ 이력서</label>
-            <input id="resumeInput" type="file" accept=".pdf,.hwp,.hwpx,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden multiple />
-          </div>
-          <div id="resumeList" class="resume-list"></div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head"><div><div class="panel-title">Data</div><div class="panel-note">지원/시험 데이터 JSON 백업</div></div></div>
-          <div class="data-actions">
-            <button class="btn" id="exportBtn">JSON 내보내기</button>
-            <label class="btn" for="importInput">JSON 가져오기</label>
-            <input id="importInput" type="file" accept="application/json" hidden />
-            <button class="btn danger ghost" id="resetBtn">초기화</button>
           </div>
         </section>
       </div>
@@ -122,24 +102,34 @@
       <div class="modal-head">시험</div>
       <div class="form-grid">
         <input type="hidden" name="id" />
-        <div class="field"><label>시험명</label><input name="name" required /></div>
+        <div class="field full"><label>시험명</label><input name="name" required /></div>
+        <div class="field"><label>접수 마감 / 접수일</label><input name="registrationDate" type="date" /></div>
+        <div class="field"><label>응시료</label><input name="fee" placeholder="예: 50,000원" /></div>
         <div class="field"><label>시험일</label><input name="date" type="date" required /></div>
+        <div class="field"><label>결과 발표일</label><input name="resultDate" type="date" /></div>
         <div class="field"><label>목표</label><input name="goal" placeholder="예: 700+" /></div>
-        <div class="field"><label>진도 %</label><input name="progress" type="number" min="0" max="100" value="0" /></div>
-        <div class="field full"><label>메모</label><input name="notes" placeholder="접수 완료 / 성적 발표일 등" /></div>
+        <div class="field"><label>메모</label><input name="notes" placeholder="접수 완료 등" /></div>
       </div>
       <div class="modal-actions"><button type="button" class="btn" data-close="examDialog">취소</button><button type="submit" class="btn primary">저장</button></div>
     </form>
   </dialog>
 
-  <!-- hidden compatibility nodes so existing local data stays readable while This week UI is removed -->
+  <dialog id="resumeDialog">
+    <div class="modal-head resume-modal-head"><span>Resume vault</span><label class="btn" for="resumeInput">+ 이력서</label></div>
+    <input id="resumeInput" type="file" accept=".pdf,.hwp,.hwpx,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden multiple />
+    <div id="resumeList" class="resume-list"></div>
+    <div class="modal-actions"><button type="button" class="btn" data-close="resumeDialog">닫기</button></div>
+  </dialog>
+
   <div hidden>
-    <span id="mWeek"></span>
+    <button id="exportBtn" type="button"></button>
+    <label for="importInput"></label><input id="importInput" type="file" accept="application/json" />
+    <button id="resetBtn" type="button"></button>
     <button id="addTodoBtn" type="button"></button>
     <div id="todoList"></div>
     <dialog id="todoDialog"><form id="todoForm"><input name="id" /><input name="text" /><input name="date" /><select name="kind"><option>기타</option></select></form></dialog>
   </div>
 
-  <script src="./app.js"></script>
+  <script src="./app.js?v=4"></script>
 </body>
 </html>
