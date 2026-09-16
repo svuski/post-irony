@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Task System</title>
-  <link rel="stylesheet" href="./style.css?v=6" />
+  <link rel="stylesheet" href="./style.css?v=7" />
 </head>
 <body>
   <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
@@ -13,7 +13,7 @@
       <div>
         <div class="eyebrow">personal control room</div>
         <h1>TASK SYSTEM</h1>
-        <div class="legend"><span>α CAREER</span><span>β CULTURE</span><span>γ SELF</span></div>
+        <div class="legend">LOVE IS IN THE AIR</div>
       </div>
       <div class="top-actions">
         <a class="link-btn" href="../">Job hunt ↗</a>
@@ -22,14 +22,12 @@
     </header>
 
     <section class="focus glass">
-      <div class="section-head"><div><div class="section-kicker">Priority</div><h2>FOCUS 3</h2></div><span class="muted">오늘 시선 둘 것</span></div>
+      <div class="section-head"><div><div class="section-kicker">Priority</div><h2>FOCUS 3</h2></div></div>
       <div id="focusList" class="focus-list"></div>
     </section>
 
     <div class="workspace">
-      <div class="main-column">
-        <div id="horizons"></div>
-      </div>
+      <div class="main-column"><div id="horizons"></div></div>
 
       <aside class="side-column">
         <section class="calendar glass">
@@ -50,13 +48,21 @@
     </div>
   </main>
 
+  <dialog id="horizonDialog" class="horizon-dialog">
+    <div class="horizon-popup-head">
+      <div><div class="section-kicker">Planning horizon</div><h2 id="horizonDialogTitle">DAY</h2><div id="horizonTrail" class="horizon-trail"></div></div>
+      <button type="button" class="icon-btn close-popup" id="closeHorizonDialog">×</button>
+    </div>
+    <div id="horizonDialogBody" class="horizon-dialog-body"></div>
+  </dialog>
+
   <dialog id="taskDialog">
     <form id="taskForm">
       <div class="modal-head">TASK</div>
       <div class="form-grid">
         <input type="hidden" name="id" />
         <div class="field full"><label>할 일</label><input name="text" required /></div>
-        <div class="field"><label>기간</label><select name="horizon"><option value="quarter">QUARTER</option><option value="month">MONTH</option><option value="week">WEEK</option><option value="today">DAY</option><option value="inbox">INBOX</option></select></div>
+        <div class="field"><label>기간</label><select name="horizon"><option value="today">DAY</option><option value="week">WEEK</option><option value="month">MONTH</option><option value="quarter">QUARTER</option><option value="inbox">INBOX</option></select></div>
         <div class="field"><label>영역</label><select name="area"><option value="alpha">Alpha · 취준</option><option value="beta">Beta · 교양/취미</option><option value="gamma">Gamma · 자기관리</option><option value="none">미분류</option></select></div>
         <div class="field"><label>기한</label><input name="due" type="date" /></div>
         <div class="field"><label>중요도</label><select name="priority"><option value="normal">보통</option><option value="high">높음</option><option value="low">낮음</option></select></div>
@@ -67,6 +73,6 @@
     </form>
   </dialog>
 
-  <script src="./app.js?v=6"></script>
+  <script src="./app.js?v=7"></script>
 </body>
 </html>
