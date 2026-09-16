@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Task System</title>
-  <link rel="stylesheet" href="./style.css?v=10" />
+  <link rel="stylesheet" href="./style.css?v=12" />
 </head>
 <body>
   <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
@@ -94,21 +94,13 @@
       <div class="form-grid">
         <input type="hidden" name="id" />
         <div class="field full"><label>일정</label><input name="text" required /></div>
-        <div class="field"><label>날짜</label><input name="date" type="date" required /></div>
-        <div class="field"><label>색상</label><div class="color-picker">
-          <label><input type="radio" name="color" value="red" checked><span class="swatch red"></span></label>
-          <label><input type="radio" name="color" value="orange"><span class="swatch orange"></span></label>
-          <label><input type="radio" name="color" value="yellow"><span class="swatch yellow"></span></label>
-          <label><input type="radio" name="color" value="green"><span class="swatch green"></span></label>
-          <label><input type="radio" name="color" value="blue"><span class="swatch blue"></span></label>
-          <label><input type="radio" name="color" value="purple"><span class="swatch purple"></span></label>
-        </div></div>
+        <div class="field full"><label>날짜</label><input name="date" type="date" required /></div>
         <div class="field full"><label>메모</label><textarea name="notes" placeholder="필요하면 짧게"></textarea></div>
       </div>
       <div class="modal-actions"><button type="button" class="btn danger" id="deleteEventBtn">삭제</button><button type="button" class="btn" id="cancelEventBtn">취소</button><button type="submit" class="btn primary">저장</button></div>
     </form>
   </dialog>
 
-  <script src="./app.js?v=11"></script>
+  <script src="./app.js?v=12"></script>
 </body>
 </html>
