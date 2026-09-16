@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Job Hunt Control Room</title>
-  <link rel="stylesheet" href="./style.css?v=4" />
+  <link rel="stylesheet" href="./style.css?v=5" />
 </head>
 <body>
   <main class="shell">
@@ -19,10 +19,12 @@
     <section class="summary">
       <article class="metric"><div class="label">Active applications</div><div class="value" id="mActive">0</div><div class="sub">제출 이후 진행 중</div></article>
       <article class="metric"><div class="label">Next deadline</div><div class="value" id="mDeadline">—</div><div class="sub" id="mDeadlineSub">등록된 마감 없음</div></article>
-      <article class="metric exam-metric">
-        <div class="metric-top"><div class="label">Next exam</div><button class="mini-btn" id="resumeVaultBtn">이력서</button></div>
-        <div class="value" id="mExam">—</div><div class="sub" id="mExamSub">등록된 시험 없음</div>
-      </article>
+      <article class="metric exam-metric"><div class="label">Next exam</div><div class="value" id="mExam">—</div><div class="sub" id="mExamSub">등록된 시험 없음</div></article>
+      <div class="resume-shortcuts" aria-label="이력서 바로가기">
+        <button class="resume-shortcut" data-resume-vault>→ DOC</button>
+        <button class="resume-shortcut" data-resume-vault>→ HWP</button>
+        <button class="resume-shortcut" data-resume-vault>→ PDF</button>
+      </div>
     </section>
 
     <div class="layout">
@@ -52,14 +54,6 @@
       <div class="stack">
         <section class="panel">
           <div class="panel-head">
-            <div><div class="panel-title">Exams</div><div class="panel-note">접수 · 시험 · 결과 일정</div></div>
-            <button class="btn" id="addExamBtn">+ 시험</button>
-          </div>
-          <div class="exam-list" id="examList"></div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head">
             <div><div class="panel-title">Job search</div><div class="panel-note">사람인 / 잡코리아 빠른 검색</div></div>
           </div>
           <div class="job-search-box">
@@ -69,6 +63,14 @@
               <button class="btn" id="searchJobkoreaBtn">잡코리아에서 보기 ↗</button>
             </div>
           </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div><div class="panel-title">Exams</div><div class="panel-note">접수 · 시험 · 결과 일정</div></div>
+            <button class="btn" id="addExamBtn">+ 시험</button>
+          </div>
+          <div class="exam-list" id="examList"></div>
         </section>
       </div>
     </div>
@@ -125,11 +127,8 @@
     <button id="exportBtn" type="button"></button>
     <label for="importInput"></label><input id="importInput" type="file" accept="application/json" />
     <button id="resetBtn" type="button"></button>
-    <button id="addTodoBtn" type="button"></button>
-    <div id="todoList"></div>
-    <dialog id="todoDialog"><form id="todoForm"><input name="id" /><input name="text" /><input name="date" /><select name="kind"><option>기타</option></select></form></dialog>
   </div>
 
-  <script src="./app.js?v=4"></script>
+  <script src="./app.js?v=5"></script>
 </body>
 </html>
