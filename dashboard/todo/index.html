@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Task System</title>
-  <link rel="stylesheet" href="./style.css?v=7" />
+  <link rel="stylesheet" href="./style.css?v=8" />
 </head>
 <body>
   <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
@@ -13,11 +13,9 @@
       <div>
         <div class="eyebrow">personal control room</div>
         <h1>TASK SYSTEM</h1>
-        <div class="legend">LOVE IS IN THE AIR</div>
       </div>
       <div class="top-actions">
         <a class="link-btn" href="../">Job hunt ↗</a>
-        <button class="btn primary" id="addTaskBtn">+ ADD TASK</button>
       </div>
     </header>
 
@@ -31,29 +29,54 @@
 
       <aside class="side-column">
         <section class="calendar glass">
-          <div class="calendar-head"><button id="prevMonth" class="icon-btn" type="button">←</button><div><div class="section-kicker">Calendar</div><h2 id="calendarTitle"></h2></div><button id="nextMonth" class="icon-btn" type="button">→</button></div>
+          <div class="calendar-toolbar">
+            <button id="prevMonth" class="icon-btn" type="button">←</button>
+            <div><div class="section-kicker">Calendar</div><h2 id="calendarTitle"></h2></div>
+            <button id="nextMonth" class="icon-btn" type="button">→</button>
+          </div>
           <div class="weekdays"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
           <div id="calendarGrid" class="calendar-grid"></div>
-          <div id="dayAgenda" class="day-agenda"><div class="muted">날짜를 누르면 일정이 보임.</div></div>
+          <div id="dayAgenda" class="day-agenda"></div>
+          <div class="calendar-actions">
+            <button id="addCalendarTask" class="btn" type="button">+ 일정</button>
+            <button id="expandCalendar" class="btn" type="button">EXPAND ↗</button>
+          </div>
         </section>
 
-        <section class="inbox glass side-inbox">
-          <button class="inbox-head accordion-toggle expanded" type="button" data-toggle-section="inboxPanel">
-            <div><div class="section-kicker">Capture</div><h2>INBOX</h2></div>
-            <div class="accordion-meta"><span id="inboxCount">0</span><span class="chevron">⌄</span></div>
-          </button>
-          <div id="inboxPanel" class="accordion-panel open"><div id="inboxList" class="inbox-list"></div></div>
-        </section>
+        <button class="inbox-line" id="openInbox" type="button">
+          <span>INBOX</span><span class="inbox-line-meta"><span id="inboxCount">0</span><span>↗</span></span>
+        </button>
       </aside>
     </div>
   </main>
 
-  <dialog id="horizonDialog" class="horizon-dialog">
+  <dialog id="horizonDialog" class="horizon-dialog large-glass-dialog">
     <div class="horizon-popup-head">
       <div><div class="section-kicker">Planning horizon</div><h2 id="horizonDialogTitle">DAY</h2><div id="horizonTrail" class="horizon-trail"></div></div>
-      <button type="button" class="icon-btn close-popup" id="closeHorizonDialog">×</button>
+      <div class="popup-head-actions"><button type="button" class="btn popup-add-task" id="addHorizonTask">+ ADD TASK</button><button type="button" class="icon-btn close-popup" id="closeHorizonDialog">×</button></div>
     </div>
     <div id="horizonDialogBody" class="horizon-dialog-body"></div>
+  </dialog>
+
+  <dialog id="inboxDialog" class="horizon-dialog large-glass-dialog">
+    <div class="horizon-popup-head">
+      <div><div class="section-kicker">Capture</div><h2>INBOX</h2></div>
+      <div class="popup-head-actions"><button type="button" class="btn" id="addInboxTask">+ ADD TASK</button><button type="button" class="icon-btn close-popup" id="closeInboxDialog">×</button></div>
+    </div>
+    <div class="inbox-popup-body" id="inboxList"></div>
+  </dialog>
+
+  <dialog id="calendarDialog" class="calendar-dialog large-glass-dialog">
+    <div class="horizon-popup-head">
+      <div><div class="section-kicker">Calendar</div><h2 id="calendarDialogTitle"></h2></div>
+      <div class="popup-head-actions"><button type="button" class="btn" id="addCalendarTaskLarge">+ 일정</button><button type="button" class="icon-btn close-popup" id="closeCalendarDialog">×</button></div>
+    </div>
+    <div class="calendar-dialog-body">
+      <div class="calendar-large-nav"><button id="prevMonthLarge" class="icon-btn" type="button">←</button><button id="nextMonthLarge" class="icon-btn" type="button">→</button></div>
+      <div class="weekdays large-weekdays"><span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span></div>
+      <div id="calendarGridLarge" class="calendar-grid calendar-grid-large"></div>
+      <div id="calendarAgendaLarge" class="calendar-agenda-large"></div>
+    </div>
   </dialog>
 
   <dialog id="taskDialog">
@@ -63,7 +86,7 @@
         <input type="hidden" name="id" />
         <div class="field full"><label>할 일</label><input name="text" required /></div>
         <div class="field"><label>기간</label><select name="horizon"><option value="today">DAY</option><option value="week">WEEK</option><option value="month">MONTH</option><option value="quarter">QUARTER</option><option value="inbox">INBOX</option></select></div>
-        <div class="field"><label>영역</label><select name="area"><option value="alpha">Alpha · 취준</option><option value="beta">Beta · 교양/취미</option><option value="gamma">Gamma · 자기관리</option><option value="none">미분류</option></select></div>
+        <div class="field"><label>영역</label><select name="area"><option value="alpha">ALPHA</option><option value="beta">BETA</option><option value="gamma">GAMMA</option><option value="none">미분류</option></select></div>
         <div class="field"><label>기한</label><input name="due" type="date" /></div>
         <div class="field"><label>중요도</label><select name="priority"><option value="normal">보통</option><option value="high">높음</option><option value="low">낮음</option></select></div>
         <label class="focus-check"><input type="checkbox" name="focus" value="yes" /> <span>FOCUS 3에 표시</span></label>
@@ -73,6 +96,6 @@
     </form>
   </dialog>
 
-  <script src="./app.js?v=7"></script>
+  <script src="./app.js?v=8"></script>
 </body>
 </html>
