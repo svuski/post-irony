@@ -18,7 +18,6 @@
 
     <section class="summary">
       <article class="metric"><div class="label">Active applications</div><div class="value" id="mActive">0</div><div class="sub">제출 이후 진행 중</div></article>
-      <article class="metric"><div class="label">This week</div><div class="value" id="mWeek">0</div><div class="sub">이번 주 제출</div></article>
       <article class="metric"><div class="label">Next deadline</div><div class="value" id="mDeadline">—</div><div class="sub" id="mDeadlineSub">등록된 마감 없음</div></article>
       <article class="metric"><div class="label">Next exam</div><div class="value" id="mExam">—</div><div class="sub" id="mExamSub">등록된 시험 없음</div></article>
     </section>
@@ -83,15 +82,7 @@
         </section>
 
         <section class="panel">
-          <div class="panel-head">
-            <div><div class="panel-title">This week</div><div class="panel-note">지금 할 것만</div></div>
-            <button class="btn" id="addTodoBtn">+ 할 일</button>
-          </div>
-          <div class="todo-list" id="todoList"></div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head"><div><div class="panel-title">Data</div><div class="panel-note">지원/시험/할 일 JSON 백업</div></div></div>
+          <div class="panel-head"><div><div class="panel-title">Data</div><div class="panel-note">지원/시험 데이터 JSON 백업</div></div></div>
           <div class="data-actions">
             <button class="btn" id="exportBtn">JSON 내보내기</button>
             <label class="btn" for="importInput">JSON 가져오기</label>
@@ -141,18 +132,13 @@
     </form>
   </dialog>
 
-  <dialog id="todoDialog">
-    <form id="todoForm">
-      <div class="modal-head">이번 주 할 일</div>
-      <div class="form-grid">
-        <input type="hidden" name="id" />
-        <div class="field full"><label>할 일</label><input name="text" required /></div>
-        <div class="field"><label>기한</label><input name="date" type="date" /></div>
-        <div class="field"><label>종류</label><select name="kind"><option>지원</option><option>시험</option><option>면접</option><option>기타</option></select></div>
-      </div>
-      <div class="modal-actions"><button type="button" class="btn" data-close="todoDialog">취소</button><button type="submit" class="btn primary">저장</button></div>
-    </form>
-  </dialog>
+  <!-- hidden compatibility nodes so existing local data stays readable while This week UI is removed -->
+  <div hidden>
+    <span id="mWeek"></span>
+    <button id="addTodoBtn" type="button"></button>
+    <div id="todoList"></div>
+    <dialog id="todoDialog"><form id="todoForm"><input name="id" /><input name="text" /><input name="date" /><select name="kind"><option>기타</option></select></form></dialog>
+  </div>
 
   <script src="./app.js"></script>
 </body>
