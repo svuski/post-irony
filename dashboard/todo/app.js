@@ -5,6 +5,7 @@ const areas={alpha:{name:'ALPHA'},beta:{name:'BETA'},gamma:{name:'GAMMA'}};
 const HORIZONS=[['today','DAY'],['week','WEEK'],['month','MONTH'],['quarter','QUARTER']];
 const TRAILS={quarter:'MONTH · WEEK · DAY',month:'WEEK · DAY',week:'DAY',today:''};
 const COLORS=['red','orange','yellow','green','blue','purple'];
+const COLOR_HEX={red:'#d95b5b',orange:'#e28b45',yellow:'#d6b73f',green:'#5d9a67',blue:'#5d83c4',purple:'#8b6ec1'};
 let data=load();
 let calendarDate=new Date();calendarDate.setDate(1);
 let selectedDate='';let currentHorizon='today';
@@ -14,6 +15,7 @@ function save(){localStorage.setItem(KEY,JSON.stringify(data));render();refreshO
 function fmt(d){if(!d)return'';return new Intl.DateTimeFormat('ko-KR',{month:'numeric',day:'numeric'}).format(new Date(d+'T00:00:00'))}
 function isoToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function progressFor(key){const all=data.tasks.filter(t=>t.horizon===key);if(!all.length)return 0;return Math.round(all.filter(t=>t.done).length/all.length*100)}
+function colorHex(name){return COLOR_HEX[COLORS.includes(name)?name:'red']}
 
 const horizonsEl=document.getElementById('horizons');
 const taskDialog=document.getElementById('taskDialog');const taskForm=document.getElementById('taskForm');
@@ -30,9 +32,9 @@ function renderHorizonDialog(){const item=HORIZONS.find(([k])=>k===currentHorizo
 function openHorizon(key){currentHorizon=key;renderHorizonDialog();if(!horizonDialog.open)horizonDialog.showModal()}
 function refreshOpenDialogs(){if(horizonDialog.open)renderHorizonDialog();if(inboxDialog.open)renderInbox();if(calendarDialog.open)renderCalendarLarge()}
 
-function calendarCells(targetLarge=false){const year=calendarDate.getFullYear(),month=calendarDate.getMonth();const first=new Date(year,month,1),last=new Date(year,month+1,0),today=new Date();const cells=[];for(let i=0;i<first.getDay();i++)cells.push('<span class="cal-empty"></span>');for(let d=1;d<=last.getDate();d++){const iso=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const related=data.events.filter(e=>e.date===iso);const isToday=today.getFullYear()===year&&today.getMonth()===month&&today.getDate()===d;const dots=related.slice(0,4).map(e=>`<b class="event-dot ${esc(e.color||'red')}"></b>`).join('');cells.push(`<button class="cal-day ${targetLarge?'cal-day-large':''} ${isToday?'today':''} ${selectedDate===iso?'selected':''}" data-date="${iso}"><span>${d}</span><span class="event-dots">${dots}</span></button>`)}return cells.join('')}
+function calendarCells(targetLarge=false){const year=calendarDate.getFullYear(),month=calendarDate.getMonth();const first=new Date(year,month,1),last=new Date(year,month+1,0),today=new Date();const cells=[];for(let i=0;i<first.getDay();i++)cells.push('<span class="cal-empty"></span>');for(let d=1;d<=last.getDate();d++){const iso=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const related=data.events.filter(e=>e.date===iso);const isToday=today.getFullYear()===year&&today.getMonth()===month&&today.getDate()===d;const dots=related.slice(0,4).map(e=>`<b class="event-dot" style="background:${colorHex(e.color)}"></b>`).join('');cells.push(`<button class="cal-day ${targetLarge?'cal-day-large':''} ${isToday?'today':''} ${selectedDate===iso?'selected':''}" data-date="${iso}"><span>${d}</span><span class="event-dots">${dots}</span></button>`)}return cells.join('')}
 function renderCalendar(){const title=new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric'}).format(calendarDate).toUpperCase();calendarTitle.textContent=title;calendarGrid.innerHTML=calendarCells(false);renderSmallAgenda()}
-function renderEventRow(e,large=false){return `<div class="calendar-event-row ${large?'large':''}"><span class="event-dot ${esc(e.color||'red')}"></span><div><strong>${esc(e.text)}</strong>${large&&e.notes?`<p>${esc(e.notes)}</p>`:''}</div>${large?`<div class="event-row-actions"><button data-edit-event="${e.id}">EDIT</button><button data-delete-event="${e.id}">DELETE</button></div>`:''}</div>`}
+function renderEventRow(e,large=false){return `<div class="calendar-event-row ${large?'large':''}"><span class="event-dot" style="background:${colorHex(e.color)}"></span><div><strong>${esc(e.text)}</strong>${large&&e.notes?`<p>${esc(e.notes)}</p>`:''}</div>${large?`<div class="event-row-actions"><button data-edit-event="${e.id}">EDIT</button><button data-delete-event="${e.id}">DELETE</button></div>`:''}</div>`}
 function renderSmallAgenda(){if(!selectedDate){dayAgenda.innerHTML='';return}const items=data.events.filter(e=>e.date===selectedDate);dayAgenda.innerHTML=`<div class="agenda-date">${new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(new Date(selectedDate+'T00:00:00'))}</div>${items.map(e=>renderEventRow(e,false)).join('')}`}
 function renderCalendarLarge(){const title=new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric'}).format(calendarDate).toUpperCase();calendarDialogTitle.textContent=title;calendarGridLarge.innerHTML=calendarCells(true);renderLargeAgenda()}
 function renderLargeAgenda(){if(!selectedDate){calendarAgendaLarge.innerHTML='';return}const items=data.events.filter(e=>e.date===selectedDate);calendarAgendaLarge.innerHTML=`<div class="agenda-date large-agenda-date">${new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(new Date(selectedDate+'T00:00:00'))}</div>${items.map(e=>renderEventRow(e,true)).join('')}`}
