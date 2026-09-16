@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Task System</title>
-  <link rel="stylesheet" href="./style.css?v=3" />
+  <link rel="stylesheet" href="./style.css?v=4" />
 </head>
 <body>
   <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
@@ -28,13 +28,6 @@
 
     <div class="workspace">
       <div class="main-column">
-        <section class="inbox glass">
-          <button class="inbox-head accordion-toggle expanded" type="button" data-toggle-section="inboxPanel">
-            <div><div class="section-kicker">Capture</div><h2>INBOX</h2></div>
-            <div class="accordion-meta"><span id="inboxCount">0</span><span class="chevron">⌄</span></div>
-          </button>
-          <div id="inboxPanel" class="accordion-panel open"><div id="inboxList" class="inbox-list"></div></div>
-        </section>
         <div id="horizons"></div>
       </div>
 
@@ -44,6 +37,14 @@
           <div class="weekdays"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
           <div id="calendarGrid" class="calendar-grid"></div>
           <div id="dayAgenda" class="day-agenda"><div class="muted">날짜를 누르면 일정이 보임.</div></div>
+        </section>
+
+        <section class="inbox glass side-inbox">
+          <button class="inbox-head accordion-toggle expanded" type="button" data-toggle-section="inboxPanel">
+            <div><div class="section-kicker">Capture</div><h2>INBOX</h2></div>
+            <div class="accordion-meta"><span id="inboxCount">0</span><span class="chevron">⌄</span></div>
+          </button>
+          <div id="inboxPanel" class="accordion-panel open"><div id="inboxList" class="inbox-list"></div></div>
         </section>
       </aside>
     </div>
@@ -66,6 +67,6 @@
     </form>
   </dialog>
 
-  <script src="./app.js?v=3"></script>
+  <script src="./app.js?v=4"></script>
 </body>
 </html>
