@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Task System</title>
-  <link rel="stylesheet" href="./style.css?v=8" />
+  <link rel="stylesheet" href="./style.css?v=9" />
 </head>
 <body>
   <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
@@ -14,9 +14,7 @@
         <div class="eyebrow">personal control room</div>
         <h1>TASK SYSTEM</h1>
       </div>
-      <div class="top-actions">
-        <a class="link-btn" href="../">Job hunt ↗</a>
-      </div>
+      <div class="top-actions"><a class="link-btn" href="../">Job hunt ↗</a></div>
     </header>
 
     <section class="focus glass">
@@ -26,26 +24,20 @@
 
     <div class="workspace">
       <div class="main-column"><div id="horizons"></div></div>
-
       <aside class="side-column">
         <section class="calendar glass">
           <div class="calendar-toolbar">
             <button id="prevMonth" class="icon-btn" type="button">←</button>
-            <div><div class="section-kicker">Calendar</div><h2 id="calendarTitle"></h2></div>
+            <button id="openCalendar" class="calendar-title-button" type="button"><div class="section-kicker">Calendar</div><h2 id="calendarTitle"></h2></button>
             <button id="nextMonth" class="icon-btn" type="button">→</button>
           </div>
           <div class="weekdays"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
           <div id="calendarGrid" class="calendar-grid"></div>
           <div id="dayAgenda" class="day-agenda"></div>
-          <div class="calendar-actions">
-            <button id="addCalendarTask" class="btn" type="button">+ 일정</button>
-            <button id="expandCalendar" class="btn" type="button">EXPAND ↗</button>
-          </div>
+          <div class="calendar-actions"><button id="addCalendarEvent" class="btn" type="button">+ 일정</button></div>
         </section>
 
-        <button class="inbox-line" id="openInbox" type="button">
-          <span>INBOX</span><span class="inbox-line-meta"><span id="inboxCount">0</span><span>↗</span></span>
-        </button>
+        <button class="inbox-line" id="openInbox" type="button"><span>INBOX</span><span class="inbox-line-meta"><span id="inboxCount">0</span><span>↗</span></span></button>
       </aside>
     </div>
   </main>
@@ -69,7 +61,7 @@
   <dialog id="calendarDialog" class="calendar-dialog large-glass-dialog">
     <div class="horizon-popup-head">
       <div><div class="section-kicker">Calendar</div><h2 id="calendarDialogTitle"></h2></div>
-      <div class="popup-head-actions"><button type="button" class="btn" id="addCalendarTaskLarge">+ 일정</button><button type="button" class="icon-btn close-popup" id="closeCalendarDialog">×</button></div>
+      <div class="popup-head-actions"><button type="button" class="btn" id="addCalendarEventLarge">+ 일정</button><button type="button" class="icon-btn close-popup" id="closeCalendarDialog">×</button></div>
     </div>
     <div class="calendar-dialog-body">
       <div class="calendar-large-nav"><button id="prevMonthLarge" class="icon-btn" type="button">←</button><button id="nextMonthLarge" class="icon-btn" type="button">→</button></div>
@@ -92,10 +84,31 @@
         <label class="focus-check"><input type="checkbox" name="focus" value="yes" /> <span>FOCUS 3에 표시</span></label>
         <div class="field full"><label>메모</label><textarea name="notes" placeholder="필요하면 짧게"></textarea></div>
       </div>
-      <div class="modal-actions"><button type="button" class="btn" id="cancelTaskBtn">취소</button><button type="submit" class="btn primary">저장</button></div>
+      <div class="modal-actions"><button type="button" class="btn danger" id="deleteTaskBtn">삭제</button><button type="button" class="btn" id="cancelTaskBtn">취소</button><button type="submit" class="btn primary">저장</button></div>
     </form>
   </dialog>
 
-  <script src="./app.js?v=8"></script>
+  <dialog id="eventDialog">
+    <form id="eventForm">
+      <div class="modal-head">CALENDAR EVENT</div>
+      <div class="form-grid">
+        <input type="hidden" name="id" />
+        <div class="field full"><label>일정</label><input name="text" required /></div>
+        <div class="field"><label>날짜</label><input name="date" type="date" required /></div>
+        <div class="field"><label>색상</label><div class="color-picker">
+          <label><input type="radio" name="color" value="red" checked><span class="swatch red"></span></label>
+          <label><input type="radio" name="color" value="orange"><span class="swatch orange"></span></label>
+          <label><input type="radio" name="color" value="yellow"><span class="swatch yellow"></span></label>
+          <label><input type="radio" name="color" value="green"><span class="swatch green"></span></label>
+          <label><input type="radio" name="color" value="blue"><span class="swatch blue"></span></label>
+          <label><input type="radio" name="color" value="purple"><span class="swatch purple"></span></label>
+        </div></div>
+        <div class="field full"><label>메모</label><textarea name="notes" placeholder="필요하면 짧게"></textarea></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn danger" id="deleteEventBtn">삭제</button><button type="button" class="btn" id="cancelEventBtn">취소</button><button type="submit" class="btn primary">저장</button></div>
+    </form>
+  </dialog>
+
+  <script src="./app.js?v=9"></script>
 </body>
 </html>
